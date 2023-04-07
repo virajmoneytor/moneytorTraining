@@ -7,6 +7,7 @@
   </head>
   <body>
     <h2>Hello <%= user.username %></h2>
+    <h2 id = "userId">Your Id <%= userId %></h2>
     <h2>Create a new post:</h2>
   
     <form method="POST" action="/post/create">
@@ -30,6 +31,7 @@
       <th style="padding: 20px;"  >Update Post</th>
       <th style="padding: 20px;"  >Delete Post</th>
       <th style="padding: 20px;"  >Likes Post</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -69,10 +71,14 @@
   </tbody>
 </table>
   </body>
+  <script src="/socket.io/socket.io.js"></script>
   <script>
- function openForm(formId) {
-    document.getElementById(formId).style.display = "block";
-  }
+  const socket = io();
+  const userId = document.getElementById('userId').innerHTML;
+
+  socket.on(userId,message=>{
+    console.log(message)
+  })
 
 // function closeModal() {
 //   document.getElementById("modal").style.display = "none";

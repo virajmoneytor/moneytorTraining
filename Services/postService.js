@@ -1,6 +1,8 @@
 const { Post, User } = require("../Models/user")
 const postService = {}
 const sequelize = require("sequelize");
+const { io } = require("../server");
+
 
 postService.createPost = async (text, userId) => {
 
@@ -185,6 +187,12 @@ postService.likePost = async (postId, userId) => {
                 { where: { id: postId } }
             )
         }
+  
+        // const creatorSocket = io.sockets.sockets.get(post.id);
+
+        // if (creatorSocket) {
+        //   creatorSocket.emit('post-liked', { postId, liker });
+        // }
 
         return true
     } catch (error) {

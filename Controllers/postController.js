@@ -56,7 +56,7 @@ postController.getAllPosts = async (req, res) => {
 
         const data = await getAllPosts(userId, limit, offset)
         
-        return res.render('posts', { posts: data.posts, postCount: data.postCount, user: data.user })
+        return res.render('posts', { posts: data.posts, postCount: data.postCount, user: data.user ,userId})
 
     } catch (error) {
         console.log(error)

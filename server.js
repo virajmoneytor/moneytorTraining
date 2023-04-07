@@ -8,7 +8,11 @@ const db = require('./Models/user')
 const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
 const passportConfig = require('./Config/passport')
+const socketio = require('socket.io')
 
+const http = require('http')
+const server = http.createServer(app)
+const io = socketio(server)
 
 //setup template engine
 app.set("view engine", "ejs");
@@ -39,7 +43,13 @@ app.get("/", (req, res) => {
     res.render("home");
   });
 
+  io.on('connection',socket=>{
+    console.log("New WS conn")
+
+    socket.emit("Your Id 18",'welcome to new world')
+  })
 
 const PORT = 5000
 
-app.listen(PORT,()=> console.log(`server is running on port ${PORT}`))
+server.listen(PORT,()=> console.log(`server is running on port ${PORT}`))
+module.exports ={io,socketio}
