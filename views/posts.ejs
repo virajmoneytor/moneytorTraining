@@ -1,0 +1,82 @@
+<!-- posts.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Posts</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h2>Hello <%= user.username %></h2>
+    <h2>Create a new post:</h2>
+  
+    <form method="POST" action="/post/create">
+      <div>
+        <label for="text">Post text:</label>
+        <input type="text" id="text" name="text">
+      </div>
+      <button type="submit">Create Post</button>
+    </form>
+    <form action="/users/logout" method="GET">
+        <button type="submit">Logout</button>
+      </form>
+    <br>
+    <h1>Posts</h1><h1>Total Posts:<%= postCount %></h1>
+<table>
+  <thead>
+    <tr>
+      <th style="padding: 20px;" >Posts</th>
+      <th  style="padding: 20px;" >Name</th>
+      <th style="padding: 20px;"  >Likes Count</th>
+      <th style="padding: 20px;"  >Update Post</th>
+      <th style="padding: 20px;"  >Delete Post</th>
+      <th style="padding: 20px;"  >Likes Post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < posts.length; i++) { %>
+      <tr>
+        <td style="padding-left: 20px;"><a href="/post/getById?postId=<%= posts[i].id %>"><%= posts[i].text %></a></td>
+        <td style="padding-left: 20px;"><%= posts[i].user.username %></td>
+        <td style="padding-left: 20px; padding-top: 7px;"><%= posts[i].likeCount %></td>
+        <td style="padding-left: 20px; padding-top: 7px;">
+          <button onclick="openForm('update-form-<%= posts[i].id %>')">Update</button>
+          <div id="update-form-<%= posts[i].id %>" style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+            <div style="background-color: #fefefe; margin: auto; padding: 20px; border: 1px solid #888; width: 80%;">
+              <h2>Update Post</h2>
+              <form method="POST" action="/post/update">
+                <input type="hidden" name="postId" value="<%= posts[i].id %>">
+                <label for="updatedText-<%= posts[i].id %>">Updated post text:</label>
+                <input type="text" id="updatedText-<%= posts[i].id %>" name="text">
+                <button type="submit">Update Post</button>
+              </form>
+            </div>
+          </div>
+        </td>
+        <td style="padding-left: 20px; padding-top: 7px;">
+          <form method="POST" action="/post/delete/">
+            <input type="hidden" name="postId" value="<%= posts[i].id %>">
+            <input type="submit" value="Delete">
+          </form>
+        </td>
+        <td style="padding-left: 20px; padding-top: 7px;">
+          <form method="POST" action="/post/like">
+            <input type="hidden" name="postId" value="<%= posts[i].id %>">
+            <input type="submit" value="Like">
+          </form>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+  </body>
+  <script>
+ function openForm(formId) {
+    document.getElementById(formId).style.display = "block";
+  }
+
+// function closeModal() {
+//   document.getElementById("modal").style.display = "none";
+// }
+
+  </script>
+</html>
